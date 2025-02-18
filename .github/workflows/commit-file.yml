@@ -1,0 +1,24 @@
+name: Conventional Commit Validation
+
+on:
+  push:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+
+jobs:
+  build:
+    name: Conventional Commits
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Validate Conventional Commits
+        uses: webiny/action-conventional-commits@v1.3.0
+        with:
+          #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Optional, for private repositories.
+          allowed-commit-types: "feat,fix,docs,style,refactor,perf,test,ci,chore,build,revert"
+
+      - name: Validate semantic versioning
+        uses: matt-usurp/validate-semver@v2
+        with:
+          version: 1.0.0

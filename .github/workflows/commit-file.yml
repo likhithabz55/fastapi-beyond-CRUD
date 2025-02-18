@@ -56,6 +56,6 @@ jobs:
           body: |
             Commit messages do not follow the conventional commit format or semantic versioning is invalid.
             Please fix them before pushing or pull request.
-          to: "likhithabz55@gmail.com"
+          to: "likhithabz@gmail.com"
           from: "${{ secrets.ETHEREAL_USERNAME }}"
 

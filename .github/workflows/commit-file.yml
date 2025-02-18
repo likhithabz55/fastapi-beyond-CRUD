@@ -24,6 +24,12 @@ jobs:
         with:
           version: 1.0.0
 
+      - name: Close PR if validation fails
+        if: ${{ failure() }}
+        uses: peter-evans/close-pull@v3
+        with:
+          token: '${{ secrets.GITHUB_TOKEN }}'
+
       - name: Send Email upon failures
         if: ${{ failure() }}
         uses: dawidd6/action-send-mail@v3

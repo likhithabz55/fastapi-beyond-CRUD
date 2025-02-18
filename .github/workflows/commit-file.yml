@@ -42,3 +42,8 @@ jobs:
             Please fix them before pushing or pull request.
           to: "likhithabz55@gmail.com"
           from: "${{ secrets.ETHEREAL_USERNAME }}"
+
+      - name: Debug SMTP Connection
+        run: |
+          echo "Testing SMTP connection to smtp.ethereal.email..."
+          nc -zv smtp.ethereal.email 587 || echo "Connection failed"

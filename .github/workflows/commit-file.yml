@@ -4,6 +4,8 @@ on:
   push:
   pull_request:
     types: [opened, synchronize, reopened, edited]
+    branches:
+      - main
 
 jobs:
   build:
@@ -12,13 +14,48 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Fetch latest commit
+        run: |
+          LATEST_COMMIT=$(git log -1 --format=%H)
+          echo "LATEST_COMMIT=${LATEST_COMMIT}"
+          echo "LATEST_COMMIT=${LATEST_COMMIT}" >> $GITHUB_ENV
+
+      - name: debug latest commit
+        run: |
+          echo "check=${{ env.LATEST_COMMIT }}"
+
       - name: validate Conventional Commits
         uses: webiny/action-conventional-commits@v1.3.0
         with:
           #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Optional, for private repositories.
           allowed-commit-types: "feat,fix,docs,style,refactor,perf,test,ci,chore,build,revert"
+          commit: "${{ env.LATEST_COMMIT }}"
 
       - name: Validate semantic versioning
         uses: matt-usurp/validate-semver@v2
         with:
           version: 1.0.0
+
+      - name: Close PR if validation fails
+        if: ${{ failure() }}
+        uses: peter-evans/close-pull@v3
+        with:
+          token: '${{ secrets.GITHUB_TOKEN }}'
+
+      - name: Send Email upon failures
+        if: ${{ failure() }}
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.ethereal.email
+          server_port: 587
+          username: ${{ secrets.ETHEREAL_USERNAME }}
+          password: ${{ secrets.ETHEREAL_PASSWORD }}
+          subject: "Github Action Failure: Conventional commit check failed <No Reply>."
+          body: |
+            Commit messages do not follow the conventional commit format or semantic versioning is invalid.
+            Please fix them before pushing or pull request.
+          to: "likhithabz55@gmail.com"
+          from: "${{ secrets.ETHEREAL_USERNAME }}"
+

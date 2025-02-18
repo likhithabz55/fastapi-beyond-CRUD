@@ -6,6 +6,7 @@ on:
     types: [opened, synchronize, reopened, edited]
     branches:
       - main
+
 jobs:
   build:
     name: Conventional Commits
@@ -44,5 +45,4 @@ jobs:
             Please fix them before pushing or pull request.
           to: "likhithabz55@gmail.com"
           from: "${{ secrets.ETHEREAL_USERNAME }}"
-
 

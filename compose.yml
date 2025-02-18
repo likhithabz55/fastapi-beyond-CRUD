@@ -58,6 +58,7 @@ services:
 
     command: celery -A src.celery_tasks worker --loglevel=INFO
 
+
     volumes:
       - .:/app
 
@@ -67,6 +68,7 @@ services:
     environment:
       REDIS_URL: ${REDIS_URL}
       DATABASE_URL: ${DATABASE_URL}
+
 
     networks:
       - app-network

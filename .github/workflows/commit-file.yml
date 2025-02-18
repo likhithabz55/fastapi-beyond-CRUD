@@ -6,7 +6,6 @@ on:
     types: [opened, synchronize, reopened, edited]
     branches:
       - main
-      - master
 jobs:
   build:
     name: Conventional Commits
@@ -29,7 +28,7 @@ jobs:
         if: ${{ failure() }}
         uses: dawidd6/action-send-mail@v3
         with:
-          server_address: smtp.ethereal.com
+          server_address: smtp.ethereal.email
           server_port: 587
           username: ${{ secrets.ETHEREAL_USERNAME }}
           password: ${{ secrets.ETHEREAL_PASSWORD }}

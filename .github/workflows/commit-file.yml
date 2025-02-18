@@ -5,8 +5,8 @@ on:
   pull_request:
     types: [opened, synchronize, reopened, edited]
     branches:
-      - [ main, master ]
-
+      - main
+      - master
 jobs:
   build:
     name: Conventional Commits

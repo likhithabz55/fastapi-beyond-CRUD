@@ -4,7 +4,8 @@ on:
   push:
   pull_request:
     types: [opened, synchronize, reopened, edited]
-
+    branches:
+      - main
 jobs:
   build:
     name: Conventional Commits
@@ -22,3 +23,28 @@ jobs:
         uses: matt-usurp/validate-semver@v2
         with:
           version: 1.0.0
+
+      - name: Check if email actions are skipped
+        run: echo "Previous steps failed"
+        if: ${{ failure() }}
+
+      - name: Send Email upon failures
+        if: ${{ failure() }}
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.ethereal.email
+          server_port: 587
+          username: ${{ secrets.ETHEREAL_USERNAME }}
+          password: ${{ secrets.ETHEREAL_PASSWORD }}
+          subject: "Github Action Failure: Conventional commit check failed <No Reply>."
+          body: |
+            Commit messages do not follow the conventional commit format or semantic versioning is invalid.
+            Please fix them before pushing or pull request.
+          to: "likhithabz55@gmail.com"
+          from: "${{ secrets.ETHEREAL_USERNAME }}"
+
+      - name: Debug SMTP Connection
+        run: |
+          echo "Testing SMTP connection to smtp.ethereal.email..."
+          nc -zv smtp.ethereal.email 587 || echo "Connection failed"
+        if: ${{ failure() }}

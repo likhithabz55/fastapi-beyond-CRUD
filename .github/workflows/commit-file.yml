@@ -17,6 +17,7 @@ jobs:
       - name: Fetch latest commit
         run: |
           echo "LATEST_COMMIT=$(git rev-parse HEAD)" >> $GITHUB_ENV
+          echo "LATEST_COMMIT=${LATEST_COMMIT}"
 
       - name: validate Conventional Commits
         uses: webiny/action-conventional-commits@v1.3.0

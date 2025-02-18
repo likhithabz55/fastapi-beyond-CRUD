@@ -21,6 +21,7 @@ jobs:
           LATEST_COMMIT=$(git log -1 --format=%H)
           echo "LATEST_COMMIT=${LATEST_COMMIT}"
           echo "LATEST_COMMIT=${LATEST_COMMIT}" >> $GITHUB_ENV
+          echo "check=${{ env.LATEST_COMMIT }}"
 
       - name: validate Conventional Commits
         uses: webiny/action-conventional-commits@v1.3.0

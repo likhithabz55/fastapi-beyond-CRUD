@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-      - name: Validate Conventional Commits
+      - name: validate Conventional Commits
         uses: webiny/action-conventional-commits@v1.3.0
         with:
           #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Optional, for private repositories.

@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Fetch latest commit
         run: |
-          echo "LATEST_COMMIT=$(git rev-parse HEAD)" >> $GITHUB_ENV
+          echo "LATEST_COMMIT=$(git log -1 --pretty=%H)" >> $GITHUB_ENV
           echo "LATEST_COMMIT=${LATEST_COMMIT}"
 
       - name: validate Conventional Commits

@@ -47,4 +47,4 @@ jobs:
         run: |
           echo "Testing SMTP connection to smtp.ethereal.email..."
           nc -zv smtp.ethereal.email 587 || echo "Connection failed"
-          if: ${{ failure() }}
+        if: ${{ failure() }}

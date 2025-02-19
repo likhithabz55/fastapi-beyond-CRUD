@@ -17,6 +17,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Setup .env
+        run: |
+          cp .env.example .env
+          echo ".env created"
+
       - name: Build docker images
         run: docker compose build
 
@@ -43,6 +48,21 @@ jobs:
         with:
           push: 'true'
           tags: ghcr.io/${{ github.actor }}/fastapi-beyond-crud:nightly
+
+      - name: Send email upon failure
+        if: ${{ failure() }}
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.ethereal.email
+          server_port: 587
+          username: ${{ secrets.ETHEREAL_USERNAME }}
+          password: ${{ secrets.ETHEREAL_PASSWORD }}
+          subject: "Github Action Failure: Nightly build failed <No Reply>"
+          body: |
+            Nightly build failed due to issues in build or tests.
+            Image not pushed to registry.
+          to: "likhithabz55@gmail.com"
+          from: "${{ secrets.ETHEREAL_USERNAME }}"
 
 
           

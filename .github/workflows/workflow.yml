@@ -17,10 +17,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      #- name: Setup .env
-        #run: |
-        #  cp .env.example .env
-        #  echo ".env created"
+      - name: Setup .env
+        run: |
+          cp .env.example .env
+          echo ".env created"
 
       - name: Build docker images
         run: docker compose build

@@ -38,7 +38,7 @@ services:
       POSTGRES_DB: bookly
       POSTGRES_PASSWORD: testpass
     healthcheck:
-      test: [ "CMD", "pg_isready", "-U", "postgres", "-d", "bookly" ]
+      test: ["CMD", "pg_isready", "-U", "postgres", "-d", "bookly"]
       interval: 10s
       retries: 5
       timeout: 5s

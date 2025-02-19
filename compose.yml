@@ -37,6 +37,11 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_DB: bookly
       POSTGRES_PASSWORD: testpass
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres", "-d", "bookly" ]
+      interval: 10s
+      retries: 5
+      timeout: 5s
 
     ports:
      - "5432:5432"
